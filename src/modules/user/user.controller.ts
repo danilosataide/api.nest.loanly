@@ -1,6 +1,8 @@
 //#region Imports
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/signUp.dto';
 import { UserPayload } from './user.payload';
 import { UserService } from './user.service';
 
@@ -29,9 +31,14 @@ export class UserController {
     return await this.userService.getById(entityId);
   }
 
-  @Post()
-  public async create(@Body() payload: UserPayload): Promise<UserPayload> {
-    return await this.userService.createOne(payload);
+  @Post('signup')
+  public async signUp(@Body() payload: SignUpDto): Promise<{ token: string }> {
+    return await this.userService.signUp(payload);
+  }
+
+  @Post('login')
+  public async login(@Body() payload: LoginDto): Promise<{ token: string }> {
+    return await this.userService.login(payload);
   }
 
   @Put(':id')
