@@ -42,7 +42,9 @@ export class UserService {
     return { token };
   }
 
-  public async login(payload: LoginDto): Promise<{ token: string }> {
+  public async login(
+    payload: LoginDto,
+  ): Promise<{ user: UserPayload; token: string }> {
     const { email, password } = payload;
 
     const user = await this.userModel.findOne<UserPayload>({ email }).exec();
@@ -57,7 +59,7 @@ export class UserService {
 
     const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return { user, token };
   }
 
   public async listMany(): Promise<UserPayload[]> {

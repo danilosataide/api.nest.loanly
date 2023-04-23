@@ -37,7 +37,9 @@ export class UserController {
   }
 
   @Post('login')
-  public async login(@Body() payload: LoginDto): Promise<{ token: string }> {
+  public async login(
+    @Body() payload: LoginDto,
+  ): Promise<{ user: UserPayload; token: string }> {
     return await this.userService.login(payload);
   }
 
